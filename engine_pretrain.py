@@ -45,9 +45,9 @@ def train_one_epoch(model: torch.nn.Module,
 
         loss_recon = weight_noise * loss_noise + (1-weight_noise) * loss
         loss = weight_mae * loss_recon + weight_simclr * loss_contrastive
-        loss_value = loss.item()
-        loss_contrastive_value = loss_contrastive.item()
-        loss_noise_value = loss_noise.item()
+        loss_value = loss.item() if type(loss) is torch.Tensor else loss
+        loss_contrastive_value = loss_contrastive.item() if type(loss_contrastive) is torch.Tensor else loss_contrastive
+        loss_noise_value = loss_noise.item() if type(loss_noise) is torch.Tensor else loss_noise
 
         if not math.isfinite(loss_value):
             print("Loss is {}, stopping training".format(loss_value))

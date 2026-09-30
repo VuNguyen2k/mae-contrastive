@@ -1,0 +1,2 @@
+CUDA_DEVICE_ORDER=PCI_BUS_ID python -m torch.distributed.launch --nproc_per_node=1 main_pretrain.py --data_path /externals/Nvme_HP_SSD2000/imagenet-1k-test/ --output_dir mae_baseline --log_dir mae_baseline_logs --num_workers 20 --blr 1.5e-4 --weight_decay 0.05 --model mae_vit_base_patch16 --batch_size 64 --epochs 50 --weight_simclr 0 --weight_mae 1.0 --accum_iter 1
+
