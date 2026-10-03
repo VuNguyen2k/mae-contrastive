@@ -222,14 +222,14 @@ class MaskedAutoencoderViT(nn.Module):
         loss = (pred - target) ** 2
         loss = loss.mean(dim=-1)  # [N, L], mean loss per patch
 
-        loss = (loss * mask).sum() / mask.sum()  # mean loss on removed patches
+        loss = (loss * mask).sum() / (mask.sum() + 1e-8)  # mean loss on removed patches
 
         loss_noise = -1
         if self.noise_loss:
             noise = self.patchify(noise)
             loss_noise = (pred - noise) ** 2
             loss_noise = loss_noise.mean(dim=-1)  # [N, L], mean loss per patch
-            loss_noise = (loss_noise * (1-mask)).sum() / (1-mask).sum()  # mean loss on removed patches
+            loss_noise = (loss_noise * (1-mask)).sum() / ((1-mask).sum() + 1e-8)  # mean loss on removed patches
 
         return loss, loss_noise
 
